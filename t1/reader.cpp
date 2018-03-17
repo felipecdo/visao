@@ -98,13 +98,11 @@ void checkOverflow(long long greater, long long lower){
 }
 
 long long pow(long long base, int exponent){
-    if (debug) printf("%lld^%d=", base, exponent);
     long long result = 1;
     for(int i = 0; i < exponent; i++){
         result = result * base;
     }
 
-    if (debug) printf("%lld; ", result);
     return result;
 }
 
@@ -155,6 +153,62 @@ void printImage(Image* image){
 
 // ------ STATISTIC UTILS ------
 
+typedef struct {
+    Image *varImage;
+    int iLowestVarCenter;
+    int jLowestVarCenter;
+    long long lowestVariance;
+    long tSize;
+}VarianceResult;
+
+VarianceResult* getVarianceCalculatingTwice(Image *source, long tSize){
+    // In case of pair tSize, I am using the center-right pixel
+    // tSize = 4, iStart = 2: [1 2 3 1] -> [1 2 3* 1]
+    int iStart, jStart = tSize/2;
+    int iEnd = source->iMax - iStart;
+    int jEnd = source->jMax - jStart;
+
+    // 3 is the 0 position. Now the it is from -2 to 1
+    int iWinStart, jWinStart = iStart - tSize + 1;
+    int iWinEnd, jWinEnd = iStart - 1;
+
+    long long totalWindow = 0;
+    long windowCount = tSize*tSize;
+    for(int i = iStart; i < iEnd; i++){
+        for(int j = jStart; j < jEnd; j++){
+            // here I am with center
+
+            for(int iWin = 0; i < iEnd; i++){
+                for(int j = jStart; j < jEnd; j++){
+
+            totalWindow += source->matrix[i][j]
+            checkOverflow(totalWindow, 0); 
+
+        }    
+    }
+
+    long long average = totalWindow/windowCount
+
+    for(int i = iStart; i < iEnd; i++){
+        for(int j = jStart; j < jEnd; j++){
+            totalWindow += source->matrix[i][j]
+            checkOverflow(totalWindow, 0); 
+
+        }    
+    }
+
+    return integralImage;
+}
+
+VarianceResult* getVarianceCalculatingOnce(Image *source, long tSize){
+    printf("Not Implemented");
+    exit(1);
+}
+
+VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
+    printf("Not Implemented");
+    exit(1);
+}
 
 
 // ------ MAIN UTILS ------
@@ -186,6 +240,9 @@ long readTSize(char *arg){
     return tSize;
 }
 
+
+
+
 int main(int argc, char * argv[]){
     if( argc != 3 ) {
         printf("Call this program using 2 arguments. Filename and T-Size. Ex: './program filename.pgm 50.\n");
@@ -205,7 +262,9 @@ int main(int argc, char * argv[]){
     Image* pow2IntegralImage = generateIntegralImage(source, 2);
     printImage(pow2IntegralImage);
 
-    
+    VarianceResult *result1 = getVarianceCalculatingTwice(source, tSize);
+    VarianceResult *result2 = getVarianceCalculatingOnce(source, tSize);
+    VarianceResult *result3 = getVarianceUsingIntegralImage(source, tSize);
 
     freeImage(source);
     freeImage(sumIntegralImage);
