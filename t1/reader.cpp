@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <time.h>
+
 #define MIN(x, y) ((x < y) ? x : y)
 
 bool debug = true;
@@ -193,6 +195,10 @@ int main(int argc, char * argv[]){
     }
 
     printStart(argv);
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
+    
     
     long tSize = readTSize(argv[2]);
     
@@ -205,13 +211,16 @@ int main(int argc, char * argv[]){
     Image* pow2IntegralImage = generateIntegralImage(source, 2);
     printImage(pow2IntegralImage);
 
-    
-
     freeImage(source);
     freeImage(sumIntegralImage);
     freeImage(pow2IntegralImage);
     
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    printf("CPU TIME USED: %lf", cpu_time_used);
     printEnd();
+
 }
 
 
