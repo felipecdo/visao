@@ -6,7 +6,7 @@
 
 bool debug = true;
 
-// ------ UTILS MALLOC / FREE ------
+// ------ UTILS MALLOC / FREE -- ----
 int pendingAdressesCount = 0;
 void* mallocLogging(size_t size){
     void* mallocResult = malloc(size);
