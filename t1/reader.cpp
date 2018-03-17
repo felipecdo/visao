@@ -213,3 +213,106 @@ int main(int argc, char * argv[]){
     
     printEnd();
 }
+
+
+void varianceAccessingTwice(Image *source, long tSize){
+    long long lowestVariance = 9999999999999999999999; //long long highest value
+    long long iLowestVariance, jLowestVariance = -1;
+    long windowSize = tSize*tSize;
+    for(int i = 0; i < source->iMax - (tSize -1); i++){
+        for(int j = 0; j < source->jMax - (tSize -1); j++){
+            // Calculate Average
+            long long windowSum = 0;
+            for(int iWindow = i; iWindow < tSize; iWindow++){
+                for(int jWindow = j; jWindow < tSize; jWindow++){
+                    windowSum += source->array[iWindow][jWindow];
+                }
+            }
+            long long windowAvg = sumWindow / windowSize;
+
+            // Calculate Variance
+            long long sumToVar = 0;
+            for(int iWindow = i; iWindow < tSize; iWindow++){
+                for(int jWindow = j; jWindow < tSize; jWindow++){
+                    sumToVar += pow(source->array[iWindow][jWindow] - windowAvg, 2);
+                }
+            }
+            long long varianceResult = sumToVar / windowSize;
+
+            if(varianceResult < lowestVariance){
+                lowestVariance = varianceResult;
+                iLowestVariance = i;
+                jLowestVariance = j;
+            }
+        }
+    }
+}
+
+void varianceAccessingOnce(Image *source, long tSize){
+    long long lowestVariance = 9999999999999999999999; //long long highest value
+    long long iLowestVariance, jLowestVariance = -1;
+    long windowSize = tSize*tSize;
+    for(int i = 0; i < source->iMax - (tSize -1); i++){
+        for(int j = 0; j < source->jMax - (tSize -1); j++){
+            // Accumulate  
+            long long windowSum = 0;
+            long long sumToVar = 0;
+            for(int iWindow = i; iWindow < tSize; iWindow++){
+                for(int jWindow = j; jWindow < tSize; jWindow++){
+                    sumToVar += pow(source->array[iWindow][jWindow], 2);
+                    windowSum += source->array[iWindow][jWindow];
+                }
+            }
+            // Calculate Average
+            long long windowAvg = sumWindow / windowSize;
+            // Calculate Variance
+            long long varianceResult = sumToVar - windowSize * pow(windowAvg, 2) 
+            
+            if(varianceResult < lowestVariance){
+                lowestVariance = varianceResult;
+                iLowestVariance = i;
+                jLowestVariance = j;
+            }
+        }
+    }
+}
+
+
+void varianceIntegralImage(Image *source, long tSize){
+    Image* sumIntegralImage = generateIntegralImage(source, 1);
+    printImage(sumIntegralImage);
+
+    Image* pow2IntegralImage = generateIntegralImage(source, 2);
+    printImage(pow2IntegralImage);
+
+    long long lowestVariance = 9999999999999999999999; //long long highest value
+    long long iLowestVariance, jLowestVariance = -1;
+    long windowSize = tSize*tSize;
+    for(int i = 0; i < source->iMax - (tSize -1); i++){
+        for(int j = 0; j < source->jMax - (tSize -1); j++){
+            long long sumToVarA = pow2IntegralImage->array[i-1][j-1]
+            long long sumToVarB = pow2IntegralImage->array[i-1][(tSize -1)]
+            long long sumToVarC = pow2IntegralImage->array[(tSize -1)][(tSize -1)]
+            long long sumToVarD = pow2IntegralImage->array[(tSize -1)][j-1]
+            long long sumToVar = sumToVarC - sumToVarB - sumToVarD + sumToVarA 
+                
+            long long sumToAvgA = sumIntegralImage->array[i-1][j-1]
+            long long sumToAvgB = sumIntegralImage->array[i-1][(tSize -1)]
+            long long sumToAvgC = sumIntegralImage->array[(tSize -1)][(tSize -1)]
+            long long sumToAvgD = sumIntegralImage->array[(tSize -1)][j-1]
+            long long sumToAvg = sumToAvgC - sumToAvgB - sumToAvgD + sumToAvgA
+            long long windowAvg = sumToAvg / windowSize
+                
+            long long varianceResult = sumToVar - windowSize * pow(windowAvg, 2) 
+            
+            if(varianceResult < lowestVariance){
+                lowestVariance = varianceResult;
+                iLowestVariance = i;
+                jLowestVariance = j;
+            }
+        }
+    }
+    
+    freeImage(sumIntegralImage);
+    freeImage(pow2IntegralImage);
+}
