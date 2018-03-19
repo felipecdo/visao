@@ -111,27 +111,12 @@ double pow(double base, int exponent){
 Image* generateIntegralImage(Image* source, int powExponent){
     Image* integralImage = allocateImage(source->iMax, source->jMax);
 
-    long long zero = 0;
-    long long accumulated = 0;
     for(int i = 0; i < source->iMax;i++){
-        accumulated += pow(source->matrix[i][0],powExponent);
-        integralImage->matrix[i][0] = accumulated;    
-        checkOverflow(integralImage->matrix[i][0], zero);
-    }
-
-    accumulated = 0;
-    for(int j = 0; j < source->jMax;j++){
-        accumulated += pow(source->matrix[0][j], powExponent);
-        integralImage->matrix[0][j] = accumulated;
-        checkOverflow(integralImage->matrix[0][j], zero);
-    }
-
-    for(int i = 1; i < source->iMax;i++){
-        for(int j = 1; j < source->jMax;j++){
+        for(int j = 0; j < source->jMax;j++){
             long long original = pow(source->matrix[i][j], powExponent);
-            long long upper = integralImage->matrix[i][j-1];
-            long long left = integralImage->matrix[i-1][j];
-            long long intersected = integralImage->matrix[i-1][j-1];
+            long long upper = j==0 ? 0 : integralImage->matrix[i][j-1];
+            long long left = i==0 ? 0 : integralImage->matrix[i-1][j];
+            long long intersected = i==0 || j==0 ? 0 : integralImage->matrix[i-1][j-1];
             long long result = original - intersected + upper + left;
 
             integralImage->matrix[i][j] = result;
@@ -226,9 +211,9 @@ VarianceResult* getVarianceAccessingOnce(Image *source, long tSize){
             // Calculate Variance
             double varianceResult = (sumToVar - windowSize * pow(windowAvg, 2)) / windowSize ;
             
+            printf("x^2 = %lf; x_= %lf...", sumToVar, windowAvg);
+            
             if(varianceResult < lowestVariance){
-                printf("%lf; %f; %lf...", sumToVar, windowAvg, windowSum);
-
                 lowestVariance = varianceResult;
                 iLowestVariance = i;
                 jLowestVariance = j;
@@ -248,10 +233,10 @@ VarianceResult* getVarianceAccessingOnce(Image *source, long tSize){
 
 VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
     Image* sumIntegralImage = generateIntegralImage(source, 1);
-    if (debug) printImage(sumIntegralImage);
+     printImage(sumIntegralImage);
 
     Image* pow2IntegralImage = generateIntegralImage(source, 2);
-    if (debug) printImage(pow2IntegralImage);
+     printImage(pow2IntegralImage);
 
     double lowestVariance = 9999999999999; //long long highest value
     int iLowestVariance, jLowestVariance = -1;
@@ -264,7 +249,7 @@ VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
             double pow2ToVarC = pow2IntegralImage->matrix[(tSize -1)][(tSize -1)];
             double pow2ToVarD = (j == 0 ? 0 : pow2IntegralImage->matrix[(tSize -1)][j-1] );
             double pow2ToVar = pow2ToVarC - pow2ToVarB - pow2ToVarD + pow2ToVarA; 
-                
+
             double sumToAvgA = (i == 0 || j == 0 ? 0 : sumIntegralImage->matrix[i-1][j-1] );
             double sumToAvgB = (i == 0 ? 0 : sumIntegralImage->matrix[i-1][(tSize -1)]  );
             double sumToAvgC = sumIntegralImage->matrix[(tSize -1)][(tSize -1)];
@@ -274,9 +259,7 @@ VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
                 
             double varianceResult = (pow2ToVar - windowSize * pow(windowAvg, 2)) / windowSize ;
             
-            if(i==434 && j==214)
-                printf("%lf; %f; %lf...", pow2ToVar, windowAvg, windowSum);
-//407371.000000; 127.640000; 3191.000000...Size: 5 x 5
+            printf("x^2 = %lf; x_= %lf...", pow2ToVar, windowAvg);
 
             if(varianceResult < lowestVariance){
                 lowestVariance = varianceResult;
