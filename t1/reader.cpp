@@ -342,26 +342,30 @@ ClockedVarianceResult* runCalculatingTime(VarianceResult* (*f)(Image*, long), Im
     ClockedVarianceResult* clockedResult = (ClockedVarianceResult*) mallocLogging(sizeof(ClockedVarianceResult)); 
     clockedResult->varianceResult = result;
     clockedResult->cpuTimeUsed = cpuTimeUsed;
-    
-    Image *target = allocateImage(tSize,tSize);
-    for(int i = 0; i < tSize; i++){ 
-        for(int j = 0; j < tSize; j++){
-            target->matrix[i][j] = source->matrix[result->iLowestVar + i][result->jLowestVar + j];
-        }   
+    if(debugVerbose){
+        Image *target = allocateImage(tSize,tSize);
+        for(int i = 0; i < tSize; i++){ 
+            for(int j = 0; j < tSize; j++){
+                target->matrix[i][j] = source->matrix[result->iLowestVar + i][result->jLowestVar + j];
+            }   
+        }
+        printImage(target);
+        freeImage(target);
     }
-    printImage(target);
-    freeImage(target);
-    
     return clockedResult;
 }
 
-void printResult(ClockedVarianceResult* result){
-    printf("%lf \t %lf \t %d \t %d \t %f\n", 
-        result->cpuTimeUsed, 
-        result->varianceResult->lowestVariance, 
-        result->varianceResult->iLowestVar, 
-        result->varianceResult->jLowestVar, 
-        result->varianceResult->windowAverage);
+void printResult(ClockedVarianceResult* result, char const* algorithmName){
+    printf("%s:\t %lf", algorithmName, result->cpuTimeUsed);
+    if(debugSimple) {
+        printf("\t %lf \t %d \t %d \t %f\n", 
+            result->varianceResult->lowestVariance, 
+            result->varianceResult->iLowestVar, 
+            result->varianceResult->jLowestVar, 
+            result->varianceResult->windowAverage);
+    } else {
+        printf(" segundos\n");
+    }
 }
 
 int runAll(Image* source, long tSize){
@@ -372,15 +376,15 @@ int runAll(Image* source, long tSize){
     resultIntegral = runCalculatingTime(getVarianceUsingIntegralImage, source, tSize);
     
     ClockedVarianceResult* result = resultTwice;
-    printResult(result);
+    printResult(result, "Percorrendo duas vezes");
     freeClockedVarianceResult(result);
 
     result = resultOnce;
-    printResult(result);
+    printResult(result, "Percorrendo uma vez   ");
     freeClockedVarianceResult(result);
 
     result = resultIntegral;
-    printResult(result);
+    printResult(result, "Imagens Integrais:    ");
     freeClockedVarianceResult(result);
 }
 
@@ -439,10 +443,20 @@ int main(int argc, char * argv[]){
 
     return 0;
 }
+
 /* ===================================================================================
  * Relatório de Resultados
  * ===================================================================================
  * 
+ * A proposta do trabalho foi avaliar as seguintes implementações de processamento de 
+ * imagens:
+ * 1. Implementado pela função \textit{getVarianceAccessingTwice}
+		
+		\item{} Implementado pela função \textit{getVarianceAccessingOnce}
+		
+		\item{} Implementado pela função \textit{getVarianceUsingIntegralImage}	
+	\end{itemize}
+	
  * 
  * 
  * 
