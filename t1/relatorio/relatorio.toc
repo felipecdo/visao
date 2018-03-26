@@ -1,0 +1,8 @@
+\contentsline {chapter}{Introdu\IeC {\c c}\IeC {\~a}o}{4}{section*.3}
+\contentsline {section}{\numberline {1}Doencas cardivasculares}{5}{section.1}
+\contentsline {section}{\numberline {2}Aterosclerose}{5}{section.2}
+\contentsline {section}{\numberline {3}IMT}{5}{section.3}
+\contentsline {section}{\numberline {4}Projeto ELSA}{5}{section.4}
+\contentsline {section}{\numberline {5}Como o medico reconhece em ultrassom? Padroes do projeto ELSA}{6}{section.5}
+\contentsline {section}{\numberline {6}Como outras pesquisas reconhecem em ultrassom?}{6}{section.6}
+\contentsline {chapter}{Considera\IeC {\c c}\IeC {\~o}es finais}{6}{section.6}

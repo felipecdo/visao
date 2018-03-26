@@ -1,0 +1,81 @@
+
+\documentclass{article}
+
+\usepackage{color}              % Controle das cores
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+\usepackage[fleqn]{amsmath} % Permite diagramação matemática avançada
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} % Permite adicionar url's clicáveis
+\usepackage{amssymb}
+\usepackage{authblk}
+
+\DeclareMathOperator{\BigO}{O}
+
+% Configura a exibição de urls
+\hypersetup{
+	colorlinks = true,
+	urlcolor   = blue,
+	linkcolor  = blue,
+	citecolor  = red
+}
+
+\newenvironment{varalgorithm}[1]
+{\algorithm\renewcommand{\thealgorithm}{#1}}
+{\endalgorithm}
+
+
+
+\title {Relatório de experimentos - Atividade 1 - Imagem integral e PGM}
+\author{Felipe Constantino de Oliveira}
+\affil{%
+	Instituto de Matemática e Estatística - IME
+	\par
+	Universidade de São Paulo -- USP
+}
+
+\date{2018}
+% ----
+% Início do documento
+% ----
+\begin{document}
+	
+	% Retira espaço extra obsoleto entre as frases.
+	\frenchspacing 
+	
+	% ----------------------------------------------------------
+	% ELEMENTOS PRÉ-TEXTUAIS
+	% ----------------------------------------------------------
+	% \pretextual
+	
+	% ---
+	% Capa
+	% ---
+	\maketitle
+	% ---
+	
+	\section{Introdução}
+	A proposta do trabalho é avaliar as seguintes implementações de processamento de imagens:
+	
+	Foi desenvolvido um programa em C para avaliação
+	
+	\begin{itemize}
+		\item{} Implementado pela função \textit{getVarianceAccessingTwice}
+		
+		\item{} Implementado pela função \textit{getVarianceAccessingOnce}
+		
+		\item{} Implementado pela função \textit{getVarianceUsingIntegralImage}	
+	\end{itemize}
+	 
+	
+	\section{Resultados}
+	Esta seção é para ver o que acontece com comandos de texto que definem
+	
+	
+	\section{Conclusão}
+	É possível perceber 	
+	
+	\section{Referências}
+	Esta seção é para ver o que acontece com comandos de texto que definem
+	
+\end{document}

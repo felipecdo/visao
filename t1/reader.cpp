@@ -6,20 +6,21 @@
 
 #define MIN(x, y) ((x < y) ? x : y)
 
-bool debug = false;
+bool debugVerbose = false;
+bool debugSimple = false;
 
 // ------------------------------------------ UTILS MALLOC / FREE -- ----
 int pendingAdressesCount = 0;
 void* mallocLogging(size_t size){
     void* mallocResult = malloc(size);
-    if(debug) printf("Allocated \"%d\". Address: \"%p\" \n", size, mallocResult);
+    if(debugVerbose) printf("Allocated \"%d\". Address: \"%p\" \n", size, mallocResult);
     pendingAdressesCount++;
     return mallocResult;
 }
 
 void freeLogging(void* var){
     free(var);
-    if(debug) printf("Deallocated address: \"%p\" \n", var);
+    if(debugVerbose) printf("Deallocated address: \"%p\" \n", var);
     pendingAdressesCount--;
 }
 
@@ -58,7 +59,7 @@ void freeImage(Image* image){
 
 // ------------------------------------------ IMAGE UTILS ------------------------------------------
 Image* readImage(char* filename){
-    if(debug) printf("Reading %s\n", filename);
+    if(debugVerbose) printf("Reading %s\n", filename);
 
     FILE* file = fopen(filename, "r" );
     if (!file) {
@@ -72,7 +73,7 @@ Image* readImage(char* filename){
     fscanf(file, "%d", &row_len);
     fscanf(file, "%d", &max_gray);
 
-    if (debug) printf("%d %d %d ",col_len, row_len, max_gray);
+    if (debugVerbose) printf("%d %d %d ",col_len, row_len, max_gray);
 
     Image* image = allocateImage(row_len, col_len);
 
@@ -129,7 +130,7 @@ Image* generateIntegralImage(Image* source, int powExponent){
 void printImage(Image* image){
     printf("Size: %d x %d\n", image->iMax, image->jMax);
     for (int i = 0; i < image->iMax; i++){
-        printf("%lld: [", i);
+        printf("%d: [", i);
         for (int j = 0; j < image->jMax; j++){
             printf("%lld\t", image->matrix[i][j]);
         }
@@ -143,13 +144,14 @@ typedef struct {
     int jLowestVar;
     double lowestVariance;
     long tSize;
+    double windowAverage;
 }VarianceResult;
 
 VarianceResult* getVarianceAccessingTwice(Image *source, long tSize){
     double lowestVariance = 9999999999999; //long long highest value
     int iLowestVariance, jLowestVariance = -1;
     double windowSize = tSize*tSize;
-    double windowSum, windowAvg, sumToVar, variance;
+    double windowSum, windowAvg, sumToVar, variance, windowAverage;
 
     for(int i = 0; i < source->iMax - (tSize -1); i++){
         for(int j = 0; j < source->jMax - (tSize -1); j++){
@@ -175,6 +177,7 @@ VarianceResult* getVarianceAccessingTwice(Image *source, long tSize){
             
             if(variance < lowestVariance){
                 lowestVariance = variance;
+                windowAverage = windowAvg;
                 iLowestVariance = i;
                 jLowestVariance = j;
             }
@@ -183,6 +186,7 @@ VarianceResult* getVarianceAccessingTwice(Image *source, long tSize){
 
     VarianceResult *varianceResult = (VarianceResult*) mallocLogging(sizeof(VarianceResult));
     
+    varianceResult->windowAverage = windowAverage;
     varianceResult->iLowestVar = iLowestVariance;
     varianceResult->jLowestVar = jLowestVariance;
     varianceResult->lowestVariance = lowestVariance; 
@@ -196,7 +200,7 @@ VarianceResult* getVarianceAccessingOnce(Image *source, long tSize){
     int iLowestVariance, jLowestVariance = -1;
     double windowSize = tSize*tSize;
 
-    double windowSum, sumToVar, windowAvg, variance; 
+    double windowSum, sumToVar, windowAvg, variance, windowAverage; 
     for(int i = 0; i < source->iMax - (tSize -1); i++){
         for(int j = 0; j < source->jMax - (tSize -1); j++){
             // Accumulate  
@@ -215,6 +219,7 @@ VarianceResult* getVarianceAccessingOnce(Image *source, long tSize){
             
             if(variance < lowestVariance){
                 lowestVariance = variance;
+                windowAverage = windowAvg;
                 iLowestVariance = i;
                 jLowestVariance = j;
             }
@@ -223,6 +228,7 @@ VarianceResult* getVarianceAccessingOnce(Image *source, long tSize){
 
     VarianceResult *varianceResult = (VarianceResult*) mallocLogging(sizeof(VarianceResult));
     
+    varianceResult->windowAverage = windowAverage;
     varianceResult->iLowestVar = iLowestVariance;
     varianceResult->jLowestVar = jLowestVariance;
     varianceResult->lowestVariance = lowestVariance; 
@@ -233,10 +239,10 @@ VarianceResult* getVarianceAccessingOnce(Image *source, long tSize){
 
 VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
     Image* sumIntegralImage = generateIntegralImage(source, 1);
-    if(debug) printImage(sumIntegralImage);
+    if(debugVerbose) printImage(sumIntegralImage);
 
     Image* pow2IntegralImage = generateIntegralImage(source, 2);
-    if(debug) printImage(pow2IntegralImage);
+    if(debugVerbose) printImage(pow2IntegralImage);
 
     double lowestVariance = 9999999999999; //long long highest value
     int iLowestVariance, jLowestVariance = -1;
@@ -244,7 +250,7 @@ VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
 
     double pow2ToVarA, pow2ToVarB, pow2ToVarC, pow2ToVarD, 
         pow2ToVar, sumToAvgA, sumToAvgB, sumToAvgC, sumToAvgD, 
-        windowSum, windowAvg, variance;
+        windowSum, windowAvg, variance, windowAverage;
     for(int i = 0; i < source->iMax - (tSize -1); i++){
         for(int j = 0; j < source->jMax - (tSize -1); j++){
             pow2ToVarA = (i == 0 || j == 0 ? 0 : pow2IntegralImage->matrix[i-1][j-1] );
@@ -264,6 +270,7 @@ VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
 
             if(variance < lowestVariance){
                 lowestVariance = variance;
+                windowAverage = windowAvg;
                 iLowestVariance = i;
                 jLowestVariance = j;
             }
@@ -275,6 +282,7 @@ VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
 
     VarianceResult *varianceResult = (VarianceResult*) mallocLogging(sizeof(VarianceResult));
     
+    varianceResult->windowAverage = windowAverage;
     varianceResult->iLowestVar = iLowestVariance;
     varianceResult->jLowestVar = jLowestVariance;
     varianceResult->lowestVariance = lowestVariance; 
@@ -285,7 +293,7 @@ VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
 
 // ------------------------------------------ MAIN UTILS ------------------------------------------
 void printEnd(){
-    if(debug){
+    if(debugSimple){
         printf("\n------------------------------------------\n");
         printf("Finished program. Pending pointers: %d \n", pendingAdressesCount);
         printf("------------------------------------------\n");
@@ -293,7 +301,7 @@ void printEnd(){
 }
 
 void printStart(char * argv[]){
-    if(debug){
+    if(debugSimple){
         printf("\n------------------------------------------\n");
         printf("Starting program.\n");
         printf("The argument supplied is %s, %s\n", argv[1], argv[2]);
@@ -303,11 +311,11 @@ void printStart(char * argv[]){
 
 long readTSize(char *arg){
     long tSize = strtol(arg, NULL, 10);
-    if(tSize == 0){
-        printf("Error: Invalid argument 2. It should be a long");
+    if(tSize == 0 || tSize < -1){
+        printf("Error: Invalid argument 2. It should be a positive long or -1 to automatic\n");
         exit(1);
     }
-    if(debug) printf("T = %ld\n", tSize);
+    if(debugVerbose) printf("T = %ld\n", tSize);
     return tSize;
 }
 
@@ -334,10 +342,55 @@ ClockedVarianceResult* runCalculatingTime(VarianceResult* (*f)(Image*, long), Im
     ClockedVarianceResult* clockedResult = (ClockedVarianceResult*) mallocLogging(sizeof(ClockedVarianceResult)); 
     clockedResult->varianceResult = result;
     clockedResult->cpuTimeUsed = cpuTimeUsed;
-     
+    
+    Image *target = allocateImage(tSize,tSize);
+    for(int i = 0; i < tSize; i++){ 
+        for(int j = 0; j < tSize; j++){
+            target->matrix[i][j] = source->matrix[result->iLowestVar + i][result->jLowestVar + j];
+        }   
+    }
+    printImage(target);
+    freeImage(target);
+    
     return clockedResult;
 }
 
+void printResult(ClockedVarianceResult* result){
+    printf("%lf \t %lf \t %d \t %d \t %f\n", 
+        result->cpuTimeUsed, 
+        result->varianceResult->lowestVariance, 
+        result->varianceResult->iLowestVar, 
+        result->varianceResult->jLowestVar, 
+        result->varianceResult->windowAverage);
+}
+
+int runAll(Image* source, long tSize){
+    ClockedVarianceResult *resultTwice, *resultOnce, *resultIntegral; 
+    
+    resultTwice = runCalculatingTime(getVarianceAccessingTwice, source, tSize);
+    resultOnce = runCalculatingTime(getVarianceAccessingOnce, source, tSize);
+    resultIntegral = runCalculatingTime(getVarianceUsingIntegralImage, source, tSize);
+    
+    ClockedVarianceResult* result = resultTwice;
+    printResult(result);
+    freeClockedVarianceResult(result);
+
+    result = resultOnce;
+    printResult(result);
+    freeClockedVarianceResult(result);
+
+    result = resultIntegral;
+    printResult(result);
+    freeClockedVarianceResult(result);
+}
+
+/* *********************************************************
+ *  Main with parameters
+ * =========================================================
+ * ./a.out images/desired.pgm 9
+ * *********************************************************
+ * ./a.out images/desired.pgm -1
+ * *********************************************************/
 int main(int argc, char * argv[]){
     if( argc != 3 ) {
         printf("Call this program using 2 arguments. Filename and T-Size. Ex: './program filename.pgm 50.\n");
@@ -348,14 +401,14 @@ int main(int argc, char * argv[]){
     long tSize = readTSize(argv[2]);
 
     Image* source = readImage(argv[1]);
-    if (debug) printImage(source);
+    if (debugVerbose) printImage(source);
     
     ClockedVarianceResult *resultTwice, *resultOnce, *resultIntegral; 
     int runCount = 1;
     long* tSizes;
     int tSizeCount;
     if(tSize == -1){
-        runCount = 10;
+        runCount = 5;
         tSizeCount = 8;
         tSizes = (long*) mallocLogging(sizeof(long)*tSizeCount);
         tSizes[0] = 25;
@@ -375,21 +428,7 @@ int main(int argc, char * argv[]){
     for(int run = 0; run < runCount; run++){
         for(int i = 0; i < tSizeCount; i++){
             printf("T = %ld\n", tSizes[i]);
-            resultTwice = runCalculatingTime(getVarianceAccessingTwice, source, tSizes[i]);
-            resultOnce = runCalculatingTime(getVarianceAccessingOnce, source, tSizes[i]);
-            resultIntegral = runCalculatingTime(getVarianceUsingIntegralImage, source, tSizes[i]);
-            
-            ClockedVarianceResult* result = resultTwice;
-            printf("Result: %lf - %lf - %d - %d\n", result->cpuTimeUsed, result->varianceResult->lowestVariance, result->varianceResult->iLowestVar, result->varianceResult->jLowestVar);
-            freeClockedVarianceResult(result);
-
-            result = resultOnce;
-            printf("Result: %lf - %lf - %d - %d\n", result->cpuTimeUsed, result->varianceResult->lowestVariance, result->varianceResult->iLowestVar, result->varianceResult->jLowestVar);
-            freeClockedVarianceResult(result);
-
-            result = resultIntegral;
-            printf("Result: %lf - %lf - %d - %d\n", result->cpuTimeUsed, result->varianceResult->lowestVariance, result->varianceResult->iLowestVar, result->varianceResult->jLowestVar);
-            freeClockedVarianceResult(result);
+            runAll(source, tSizes[i]);
         }
     }
 
@@ -397,4 +436,17 @@ int main(int argc, char * argv[]){
     freeImage(source);
     
     printEnd();
+
+    return 0;
 }
+/* ===================================================================================
+ * Relatório de Resultados
+ * ===================================================================================
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * ===================================================================================
+ */
