@@ -32,6 +32,17 @@ typedef struct {
     int jMax;
 }Image;
 
+void printImage(Image* image){
+    printf("Size: %d x %d\n", image->iMax, image->jMax);
+    for (int i = 0; i < image->iMax; i++){
+        printf("%d: [", i);
+        for (int j = 0; j < image->jMax; j++){
+            printf("%lld\t", image->matrix[i][j]);
+        }
+        printf("]\n");
+    }
+}
+
 Image* allocateImage(int iMax, int jMax){
     long long *array;
     array = (long long*) mallocLogging(sizeof(long long)*iMax*jMax);
@@ -127,16 +138,6 @@ Image* generateIntegralImage(Image* source, int powExponent){
     return integralImage;
 }
 
-void printImage(Image* image){
-    printf("Size: %d x %d\n", image->iMax, image->jMax);
-    for (int i = 0; i < image->iMax; i++){
-        printf("%d: [", i);
-        for (int j = 0; j < image->jMax; j++){
-            printf("%lld\t", image->matrix[i][j]);
-        }
-        printf("]\n");
-    }
-}
 
 // ------------------------------------------ STATISTIC UTILS ------------------------------------------
 typedef struct {
@@ -322,7 +323,7 @@ long readTSize(char *arg){
 typedef struct {
     VarianceResult* varianceResult;
     double cpuTimeUsed;
-}ClockedVarianceResult;
+} ClockedVarianceResult;
 
 void freeClockedVarianceResult(ClockedVarianceResult* result){
     freeLogging(result->varianceResult);
@@ -447,20 +448,94 @@ int main(int argc, char * argv[]){
 /* ===================================================================================
  * Relatório de Resultados
  * ===================================================================================
- * 
- * A proposta do trabalho foi avaliar as seguintes implementações de processamento de 
- * imagens:
- * 1. Implementado pela função \textit{getVarianceAccessingTwice}
-		
-		\item{} Implementado pela função \textit{getVarianceAccessingOnce}
-		
-		\item{} Implementado pela função \textit{getVarianceUsingIntegralImage}	
-	\end{itemize}
-	
- * 
- * 
- * 
- * 
- * 
+
+1. Introdução
+
+Com o objetivo de estimar o nível de ruído numa imagem, a proposta do trabalho foi 
+avaliar diferentes implementações e técnicas de processamento de imagens utilizando 
+como base a variância dada uma região quadrada de largura t, a qual chamaremos de janela.
+
+Como primeira abordagem, utilizou-se a fórmula (2) da variância no enunciado, 
+implementado pela função "getVarianceAccessingTwice" deste programa. Isto pois, segundo
+a fórmula, precisamos primeiro calcular a média da janela para finalmente calcularmos a
+variância.
+
+Já na segunda abordagem, utilizando a fórmula (4) do enunciado, pudemos em uma única 
+visita à todos os itens da janela calcular a variância, implementado pela função
+"getVarianceAccessingOnce" deste programa.
+
+E finalmente, como terceira abordagem utilizamos Imagens Integrais, definida na função
+"getVarianceUsingIntegralImage". Note que para que o cálculo da variância ser possível
+foi necessário gerar duas imagens integrais: (1) sumIntegralImage que dado um ponto, 
+continha a soma de todos os pixels à esquerda e acima dele e (2) pow2IntegralImage que 
+contém lógica similar, porém calculando o valor da imagem original ao quadrado. Assim,
+foi possível com somente 8 acessos (4 em cada imagem integral) calcular a variância 
+da janela na imagem original.
+
+
+2. Resultados e avaliação
+
+Para avaliar o resultado, foi utilizada inicialmente as imagens disponibilizadas.
+Nos primeiros resultados, serão analisadas as imagens fig01.pgm, fig02.pgm, fig03.pgm, 
+fig04.pgm e fig05.pgm, imagens da famosa "Lena Soderberg", sendo que para cada imagem, 
+foi inserido um ruído a mais de "sal e pimenta". 
+ 
+O resultado da variância independe de algoritmo e pode ser observados entre janelas na 
+tabela a seguir:
+
+-----------------------------------------------------------------------------------------
+| Imagem	t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200							
+-----------------------------------------------------------------------------------------
+| fig01     4.02	9.60	41.17	76.31	187.77	341.11	528.03	684.83
+| fig02     16.90	23.27	50.69	82.15	181.73	319.87	487.81	630.58
+| fig03     52.43	62.95	86.56	114.98	203.29	327.30	476.92	606.29
+| fig04     111.21	127.31	148.73	175.38	253.24	363.92	496.35	612.68
+| fig05     194.19	218.18	237.21	262.29	330.67	429.02	544.91	649.20
+-----------------------------------------------------------------------------------------
+
+Conseguimos perceber alguns detalhes neste resultado:
+1. Para janelas com tamanho t até 150, pode-se observar que a existe uma clara escala de 
+ruído onde fig01 é a que tem menos ruído (menor variância) e a fig05 possui mais ruído
+(maior variância). 
+2. No entanto, conforme aumentamos t, a chance de termos objetos diferentes na janela 
+se torna maior. Isso faz com que a menor variância, na mesma figura, mas para tamanhos 
+de t diferentes, gerem variâncias maiores.
+
+Agora em termos de performance, vamos analisar fig01.pgm, a imagem com muito pouco ruído 
+(os resultados são em segundos):
+
+-----------------------------------------------------------------------------------------
+| Algoritmo	            t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200							
+-----------------------------------------------------------------------------------------
+| Percorrendo 2 vezes	4.43    16.00	32.02	50.49	69.55	87.74	103.05	109.89
+| Percorrendo 1 vez	    3.45	12.15	24.20	38.68	52.66	66.55	77.64	83.32
+| Imagens Integrais	    0.03	0.03	0.03	0.03	0.02	0.02	0.02	0.02
+-----------------------------------------------------------------------------------------
+
+A tabela acima evidencia que até existe um ganho de performance de acessar somente uma vez
+os itens do array ao invés de acessar duas vezes. Mas conforme aumentamos o tamanho da 
+janela, muito mais tempo é utilizado para conseguir encontrar a menor variância. Já quando
+utilizamos imagens integrais, como independente do tamanho da janela ela consegue encontrar
+a menor variância da imagem muito mais rápido.
+
+3. Conclusão
+
+Com a análise da variância foi possível perceber que ela pode ser utilizada como um 
+critério de medição ruído para imagens de mesma natureza. No entanto, como pudemos 
+observar, dificilmente poderemos utilizá-la para tamanho de janela distintos e imagens 
+com naturezas muito diferentes.
+
+Já sobre o tempo de execução, é clara a contribuição das imagens integrais na execução da
+medição de ruído. O fato de independer do tamanho de janela e acessar somente os 4 
+elementos de cada uma das imagens geradas faz o algoritmo extremamente eficaz e apesar 
+de um elevado custo de memória, pois temos que gerar 2 imagens extras com cada um dos itens
+maior do que os originais (utilizando long long na implementação corrente), fica extremamente
+mais eficiente no momento de processamento da imagem. 
+
+
  * ===================================================================================
  */
+/*
+Faltando
+---- EXPLICAR COMO OS RESULTADOS FORAM GERADOS e Para a fig00.pgm, uma imagem. Seria interessante uma imagem de tamanho diferente ---
+*/
