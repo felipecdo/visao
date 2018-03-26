@@ -451,16 +451,17 @@ int main(int argc, char * argv[]){
 
 1. Introdução
 
-Com o objetivo de estimar o nível de ruído numa imagem, a proposta do trabalho foi 
+Com o objetivo de estimar o nível de ruído em uma imagem, a proposta do trabalho foi 
 avaliar diferentes implementações e técnicas de processamento de imagens utilizando 
 como base a variância dada uma região quadrada de largura t, a qual chamaremos de janela.
 
 Como primeira abordagem, utilizou-se a fórmula (2) da variância no enunciado, 
 implementado pela função "getVarianceAccessingTwice" deste programa. Isto pois, segundo
 a fórmula, precisamos primeiro calcular a média da janela para finalmente calcularmos a
-variância.
+variância, necessitando percorrer duas vezes o mesmo conjunto de elementos dentro da 
+janela.
 
-Já na segunda abordagem, utilizando a fórmula (4) do enunciado, pudemos em uma única 
+Já na segunda abordagem, utilizando a fórmula (4) do enunciado, conseguimos em uma única 
 visita à todos os itens da janela calcular a variância, implementado pela função
 "getVarianceAccessingOnce" deste programa.
 
@@ -472,70 +473,103 @@ contém lógica similar, porém calculando o valor da imagem original ao quadrad
 foi possível com somente 8 acessos (4 em cada imagem integral) calcular a variância 
 da janela na imagem original.
 
-
 2. Resultados e avaliação
 
-Para avaliar o resultado, foi utilizada inicialmente as imagens disponibilizadas.
-Nos primeiros resultados, serão analisadas as imagens fig01.pgm, fig02.pgm, fig03.pgm, 
-fig04.pgm e fig05.pgm, imagens da famosa "Lena Soderberg", sendo que para cada imagem, 
-foi inserido um ruído a mais de "sal e pimenta". 
+Para avaliar o resultado, cada um dos algoritmos foi executado para janelas de largura
+de 25 em 25 iniciando com t=25 até t=200 cinco vezes (Para reproduzir este comportamento 
+basta chamar o programa passando t = -1). Os resultados de performance abaixo contém a 
+média de tempo gasto em segundos das 5 execuções.
+
+Vamos inicialmente analisar as imagens disponibilizadas: fig01.pgm, fig02.pgm, fig03.pgm, 
+fig04.pgm e fig05.pgm, imagens 512x512 da famosa "Lena Soderberg", sendo que para cada 
+imagem, foi inserido um ruído a mais. 
  
-O resultado da variância independe de algoritmo e pode ser observados entre janelas na 
+O resultado da menor variância independe de algoritmo e pode ser observados entre janelas na 
 tabela a seguir:
 
 -----------------------------------------------------------------------------------------
-| Imagem	t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200							
+| Imagem    t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200
 -----------------------------------------------------------------------------------------
-| fig01     4.02	9.60	41.17	76.31	187.77	341.11	528.03	684.83
-| fig02     16.90	23.27	50.69	82.15	181.73	319.87	487.81	630.58
-| fig03     52.43	62.95	86.56	114.98	203.29	327.30	476.92	606.29
-| fig04     111.21	127.31	148.73	175.38	253.24	363.92	496.35	612.68
-| fig05     194.19	218.18	237.21	262.29	330.67	429.02	544.91	649.20
+| fig01     4.02    9.60    41.17   76.31   187.77  341.11  528.03  684.83
+| fig02     16.90   23.27   50.69   82.15   181.73  319.87  487.81  630.58
+| fig03     52.43   62.95   86.56   114.98  203.29  327.30  476.92  606.29
+| fig04     111.21  127.31  148.73  175.38  253.24  363.92  496.35  612.68
+| fig05     194.19  218.18  237.21  262.29  330.67  429.02  544.91  649.20
 -----------------------------------------------------------------------------------------
 
 Conseguimos perceber alguns detalhes neste resultado:
 1. Para janelas com tamanho t até 150, pode-se observar que a existe uma clara escala de 
-ruído onde fig01 é a que tem menos ruído (menor variância) e a fig05 possui mais ruído
-(maior variância). 
+ruído onde fig01 é a que tem menos ruído (menor variância mínima) e a fig05 possui mais 
+ruído (maior variância mínima). 
 2. No entanto, conforme aumentamos t, a chance de termos objetos diferentes na janela 
-se torna maior. Isso faz com que a menor variância, na mesma figura, mas para tamanhos 
-de t diferentes, gerem variâncias maiores.
+se torna maior. Isso faz com que a menor variância mínima, na mesma figura mas para 
+tamanhos de t diferentes, possam gerar variâncias maiores, observado quando comparamos 
+t=200 da fig01 e da fig02, por exemplo.
 
 Agora em termos de performance, vamos analisar fig01.pgm, a imagem com muito pouco ruído 
 (os resultados são em segundos):
 
 -----------------------------------------------------------------------------------------
-| Algoritmo	            t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200							
+| Algoritmo             t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200
 -----------------------------------------------------------------------------------------
-| Percorrendo 2 vezes	4.43    16.00	32.02	50.49	69.55	87.74	103.05	109.89
-| Percorrendo 1 vez	    3.45	12.15	24.20	38.68	52.66	66.55	77.64	83.32
-| Imagens Integrais	    0.03	0.03	0.03	0.03	0.02	0.02	0.02	0.02
+| Percorrendo 2 vezes   3.53    12.65   25.53   40.43   55.70   70.24   82.78   92.72
+| Percorrendo 1 vez     2.66    9.60    19.44   30.71   42.36   53.40   63.03   70.64
+| Imagens Integrais     0.02    0.02    0.02    0.02    0.02    0.02    0.02    0.02
 -----------------------------------------------------------------------------------------
 
 A tabela acima evidencia que até existe um ganho de performance de acessar somente uma vez
 os itens do array ao invés de acessar duas vezes. Mas conforme aumentamos o tamanho da 
 janela, muito mais tempo é utilizado para conseguir encontrar a menor variância. Já quando
-utilizamos imagens integrais, como independente do tamanho da janela ela consegue encontrar
+utilizamos imagens integrais, independente do tamanho da janela e ela consegue encontrar
 a menor variância da imagem muito mais rápido.
+
+Vamos observar agora a fig05.pgm, figura com mais ruído
+
+-----------------------------------------------------------------------------------------
+| Algoritmo             t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200
+-----------------------------------------------------------------------------------------
+| Percorrendo 2 vezes   3.56    12.71   25.59   40.43   55.71   70.19   82.78   92.72
+| Percorrendo 1 vez     2.69    9.65    19.43   30.72   42.41   53.40   63.02   70.27
+| Imagens Integrais     0.02    0.02    0.02    0.02    0.02    0.02    0.02    0.02
+-----------------------------------------------------------------------------------------
+
+Fica evidente que ter ou não ruído não é um fator determinante para a execução do algoritmo
+pois o tempo de execução é bem similar. No entanto, vamos observar uma figura de tamanho 
+diferente: mountain.ascii.pgm (incluída no pacote de entrega na pasta images/) de 640x480.
+
+-----------------------------------------------------------------------------------------
+| Algoritmo             t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200
+-----------------------------------------------------------------------------------------
+| Percorrendo 2 vezes   5.20    18.71   38.01   60.67   84.37   107.50  128.52  145.67
+| Percorrendo 1 vez     3.93    14.23   28.92   46.21   64.24   81.92   97.80   110.99
+| Imagens Integrais     0.04    0.03    0.03    0.03    0.03    0.03    0.03    0.03
+-----------------------------------------------------------------------------------------
+
+Veja que o tempo de execução se apresenta maior na imagem em qualquer um dos algoritmos.
+Interessante de se observar de que apesar do aumento, quando utilizamos imagens 
+integrais, a execução ainda é bem rápida, cerca de 3 a 4 milissegundos.
 
 3. Conclusão
 
 Com a análise da variância foi possível perceber que ela pode ser utilizada como um 
 critério de medição ruído para imagens de mesma natureza. No entanto, como pudemos 
 observar, dificilmente poderemos utilizá-la para tamanho de janela distintos e imagens 
-com naturezas muito diferentes.
+com naturezas muito diferentes devido o valor variar bastante de uma janela para outra.
 
-Já sobre o tempo de execução, é clara a contribuição das imagens integrais na execução da
-medição de ruído. O fato de independer do tamanho de janela e acessar somente os 4 
-elementos de cada uma das imagens geradas faz o algoritmo extremamente eficaz e apesar 
-de um elevado custo de memória, pois temos que gerar 2 imagens extras com cada um dos itens
-maior do que os originais (utilizando long long na implementação corrente), fica extremamente
-mais eficiente no momento de processamento da imagem. 
+Já sobre o tempo de execução, notamos que apesar do relativo ganho em percorrer a janela
+somente uma vez ao invés de duas, a velocidade de execução quando utilizamos Imagens 
+Integrais é muito superior, mesmo com um elevado custo de memória, pois temos que 
+gerar 2 imagens extras com cada um dos itens maior do que os originais (utilizando long 
+long na implementação corrente). 
 
+Com o último experimento foi possível perceber também que o tamanho da imagem é um 
+fator importante para qualquer um dos algoritmos apresentados vide que quando aumentamos
+o número de pixels da imagem, qualquer um dos algoritmos demorou mais.
+
+Portanto, pelos resultados apresentados fica clara a contribuição das imagens integrais 
+na execução da medição de ruído através da mínima variância da imagem original. Sua 
+superioridade em tempos de execução consegue processar até imagens grandes com boa 
+velocidade de processamento.
 
  * ===================================================================================
  */
-/*
-Faltando
----- EXPLICAR COMO OS RESULTADOS FORAM GERADOS e Para a fig00.pgm, uma imagem. Seria interessante uma imagem de tamanho diferente ---
-*/
