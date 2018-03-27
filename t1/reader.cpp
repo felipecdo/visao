@@ -540,9 +540,9 @@ diferente: mountain.ascii.pgm (incluída no pacote de entrega na pasta images/) 
 -----------------------------------------------------------------------------------------
 | Algoritmo             t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200
 -----------------------------------------------------------------------------------------
-| Percorrendo 2 vezes   5.20    18.71   38.01   60.67   84.37   107.50  128.52  145.67
-| Percorrendo 1 vez     3.93    14.23   28.92   46.21   64.24   81.92   97.80   110.99
-| Imagens Integrais     0.04    0.03    0.03    0.03    0.03    0.03    0.03    0.03
+| Percorrendo 2 vezes   5.21	18.73	38.07	60.67	84.47	108.18	131.28	145.99
+| Percorrendo 1 vez     3.94	14.24	28.98	46.28	64.68	83.49	98.89	111.07
+| Imagens Integrais     0.04	0.03	0.03	0.03	0.03	0.03	0.03	0.02
 -----------------------------------------------------------------------------------------
 
 Veja que o tempo de execução se apresenta maior na imagem em qualquer um dos algoritmos.
@@ -570,6 +570,14 @@ Portanto, pelos resultados apresentados fica clara a contribuição das imagens 
 na execução da medição de ruído através da mínima variância da imagem original. Sua 
 superioridade em tempos de execução consegue processar até imagens grandes com boa 
 velocidade de processamento.
+
+4. Considerações adicionais
+
+Todos os testes foram rodados utilizando a seguinte configuração de máquina:
+Processador Intel i5-7300HQ CPU 2.5GHz x 4
+12Gib de memória com 64-bits
+Placa gráfica Intel® Kabylake GT2 
+
 
  * ===================================================================================
  */

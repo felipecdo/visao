@@ -1,0 +1,169 @@
+
+------------------------------------------
+Starting program.
+The argument supplied is images/fig02.pgm, -1
+------------------------------------------
+T = 25
+Percorrendo duas vezes:	 3.472478	 16.902031 	 311 	 486 	 203.980800
+Percorrendo uma vez   :	 2.625790	 16.902031 	 311 	 486 	 203.980800
+Imagens Integrais:    :	 0.024360	 16.902031 	 311 	 486 	 203.980800
+T = 50
+Percorrendo duas vezes:	 12.416840	 23.273484 	 152 	 462 	 155.346000
+Percorrendo uma vez   :	 9.405413	 23.273484 	 152 	 462 	 155.346000
+Imagens Integrais:    :	 0.021582	 23.273484 	 152 	 462 	 155.346000
+T = 75
+Percorrendo duas vezes:	 25.667144	 50.694893 	 0 	 121 	 128.137422
+Percorrendo uma vez   :	 19.426861	 50.694893 	 0 	 121 	 128.137422
+Imagens Integrais:    :	 0.021412	 50.694893 	 0 	 121 	 128.137422
+T = 100
+Percorrendo duas vezes:	 40.428069	 82.152379 	 0 	 110 	 126.400900
+Percorrendo uma vez   :	 30.698695	 82.152379 	 0 	 110 	 126.400900
+Imagens Integrais:    :	 0.020222	 82.152379 	 0 	 110 	 126.400900
+T = 125
+Percorrendo duas vezes:	 55.694096	 181.728761 	 0 	 84 	 121.446720
+Percorrendo uma vez   :	 42.364508	 181.728761 	 0 	 84 	 121.446720
+Imagens Integrais:    :	 0.019123	 181.728761 	 0 	 84 	 121.446720
+T = 150
+Percorrendo duas vezes:	 70.415388	 319.870984 	 0 	 57 	 117.713111
+Percorrendo uma vez   :	 53.388434	 319.870984 	 0 	 57 	 117.713111
+Imagens Integrais:    :	 0.018052	 319.870984 	 0 	 57 	 117.713111
+T = 175
+Percorrendo duas vezes:	 82.811698	 487.813990 	 0 	 52 	 122.683820
+Percorrendo uma vez   :	 63.000687	 487.813990 	 0 	 52 	 122.683820
+Imagens Integrais:    :	 0.017234	 487.813990 	 0 	 52 	 122.683820
+T = 200
+Percorrendo duas vezes:	 92.708572	 630.578782 	 0 	 20 	 125.988025
+Percorrendo uma vez   :	 70.779765	 630.578782 	 0 	 20 	 125.988025
+Imagens Integrais:    :	 0.016381	 630.578782 	 0 	 20 	 125.988025
+T = 25
+Percorrendo duas vezes:	 3.561563	 16.902031 	 311 	 486 	 203.980800
+Percorrendo uma vez   :	 2.686482	 16.902031 	 311 	 486 	 203.980800
+Imagens Integrais:    :	 0.023967	 16.902031 	 311 	 486 	 203.980800
+T = 50
+Percorrendo duas vezes:	 12.719659	 23.273484 	 152 	 462 	 155.346000
+Percorrendo uma vez   :	 9.646738	 23.273484 	 152 	 462 	 155.346000
+Imagens Integrais:    :	 0.022680	 23.273484 	 152 	 462 	 155.346000
+T = 75
+Percorrendo duas vezes:	 25.588678	 50.694893 	 0 	 121 	 128.137422
+Percorrendo uma vez   :	 19.427792	 50.694893 	 0 	 121 	 128.137422
+Imagens Integrais:    :	 0.021366	 50.694893 	 0 	 121 	 128.137422
+T = 100
+Percorrendo duas vezes:	 40.437157	 82.152379 	 0 	 110 	 126.400900
+Percorrendo uma vez   :	 30.716968	 82.152379 	 0 	 110 	 126.400900
+Imagens Integrais:    :	 0.020207	 82.152379 	 0 	 110 	 126.400900
+T = 125
+Percorrendo duas vezes:	 55.715801	 181.728761 	 0 	 84 	 121.446720
+Percorrendo uma vez   :	 42.365580	 181.728761 	 0 	 84 	 121.446720
+Imagens Integrais:    :	 0.019089	 181.728761 	 0 	 84 	 121.446720
+T = 150
+Percorrendo duas vezes:	 70.187652	 319.870984 	 0 	 57 	 117.713111
+Percorrendo uma vez   :	 53.398354	 319.870984 	 0 	 57 	 117.713111
+Imagens Integrais:    :	 0.018056	 319.870984 	 0 	 57 	 117.713111
+T = 175
+Percorrendo duas vezes:	 82.777569	 487.813990 	 0 	 52 	 122.683820
+Percorrendo uma vez   :	 63.023495	 487.813990 	 0 	 52 	 122.683820
+Imagens Integrais:    :	 0.017104	 487.813990 	 0 	 52 	 122.683820
+T = 200
+Percorrendo duas vezes:	 92.726470	 630.578782 	 0 	 20 	 125.988025
+Percorrendo uma vez   :	 70.604898	 630.578782 	 0 	 20 	 125.988025
+Imagens Integrais:    :	 0.016712	 630.578782 	 0 	 20 	 125.988025
+T = 25
+Percorrendo duas vezes:	 3.561014	 16.902031 	 311 	 486 	 203.980800
+Percorrendo uma vez   :	 2.686520	 16.902031 	 311 	 486 	 203.980800
+Imagens Integrais:    :	 0.023930	 16.902031 	 311 	 486 	 203.980800
+T = 50
+Percorrendo duas vezes:	 12.717843	 23.273484 	 152 	 462 	 155.346000
+Percorrendo uma vez   :	 9.648665	 23.273484 	 152 	 462 	 155.346000
+Imagens Integrais:    :	 0.022626	 23.273484 	 152 	 462 	 155.346000
+T = 75
+Percorrendo duas vezes:	 25.589574	 50.694893 	 0 	 121 	 128.137422
+Percorrendo uma vez   :	 19.433890	 50.694893 	 0 	 121 	 128.137422
+Imagens Integrais:    :	 0.021366	 50.694893 	 0 	 121 	 128.137422
+T = 100
+Percorrendo duas vezes:	 40.432715	 82.152379 	 0 	 110 	 126.400900
+Percorrendo uma vez   :	 30.717007	 82.152379 	 0 	 110 	 126.400900
+Imagens Integrais:    :	 0.020176	 82.152379 	 0 	 110 	 126.400900
+T = 125
+Percorrendo duas vezes:	 55.708110	 181.728761 	 0 	 84 	 121.446720
+Percorrendo uma vez   :	 42.378198	 181.728761 	 0 	 84 	 121.446720
+Imagens Integrais:    :	 0.019085	 181.728761 	 0 	 84 	 121.446720
+T = 150
+Percorrendo duas vezes:	 70.188293	 319.870984 	 0 	 57 	 117.713111
+Percorrendo uma vez   :	 53.378101	 319.870984 	 0 	 57 	 117.713111
+Imagens Integrais:    :	 0.018071	 319.870984 	 0 	 57 	 117.713111
+T = 175
+Percorrendo duas vezes:	 82.780300	 487.813990 	 0 	 52 	 122.683820
+Percorrendo uma vez   :	 63.036524	 487.813990 	 0 	 52 	 122.683820
+Imagens Integrais:    :	 0.017104	 487.813990 	 0 	 52 	 122.683820
+T = 200
+Percorrendo duas vezes:	 92.720979	 630.578782 	 0 	 20 	 125.988025
+Percorrendo uma vez   :	 70.599258	 630.578782 	 0 	 20 	 125.988025
+Imagens Integrais:    :	 0.016190	 630.578782 	 0 	 20 	 125.988025
+T = 25
+Percorrendo duas vezes:	 3.560349	 16.902031 	 311 	 486 	 203.980800
+Percorrendo uma vez   :	 2.686336	 16.902031 	 311 	 486 	 203.980800
+Imagens Integrais:    :	 0.023957	 16.902031 	 311 	 486 	 203.980800
+T = 50
+Percorrendo duas vezes:	 12.720345	 23.273484 	 152 	 462 	 155.346000
+Percorrendo uma vez   :	 9.646005	 23.273484 	 152 	 462 	 155.346000
+Imagens Integrais:    :	 0.022631	 23.273484 	 152 	 462 	 155.346000
+T = 75
+Percorrendo duas vezes:	 25.587362	 50.694893 	 0 	 121 	 128.137422
+Percorrendo uma vez   :	 19.434285	 50.694893 	 0 	 121 	 128.137422
+Imagens Integrais:    :	 0.021393	 50.694893 	 0 	 121 	 128.137422
+T = 100
+Percorrendo duas vezes:	 40.437922	 82.152379 	 0 	 110 	 126.400900
+Percorrendo uma vez   :	 30.704604	 82.152379 	 0 	 110 	 126.400900
+Imagens Integrais:    :	 0.020198	 82.152379 	 0 	 110 	 126.400900
+T = 125
+Percorrendo duas vezes:	 55.712177	 181.728761 	 0 	 84 	 121.446720
+Percorrendo uma vez   :	 42.365051	 181.728761 	 0 	 84 	 121.446720
+Imagens Integrais:    :	 0.019051	 181.728761 	 0 	 84 	 121.446720
+T = 150
+Percorrendo duas vezes:	 70.188779	 319.870984 	 0 	 57 	 117.713111
+Percorrendo uma vez   :	 53.396064	 319.870984 	 0 	 57 	 117.713111
+Imagens Integrais:    :	 0.018061	 319.870984 	 0 	 57 	 117.713111
+T = 175
+Percorrendo duas vezes:	 82.790181	 487.813990 	 0 	 52 	 122.683820
+Percorrendo uma vez   :	 63.025147	 487.813990 	 0 	 52 	 122.683820
+Imagens Integrais:    :	 0.017126	 487.813990 	 0 	 52 	 122.683820
+T = 200
+Percorrendo duas vezes:	 92.722465	 630.578782 	 0 	 20 	 125.988025
+Percorrendo uma vez   :	 70.598383	 630.578782 	 0 	 20 	 125.988025
+Imagens Integrais:    :	 0.016233	 630.578782 	 0 	 20 	 125.988025
+T = 25
+Percorrendo duas vezes:	 3.561615	 16.902031 	 311 	 486 	 203.980800
+Percorrendo uma vez   :	 2.689148	 16.902031 	 311 	 486 	 203.980800
+Imagens Integrais:    :	 0.023988	 16.902031 	 311 	 486 	 203.980800
+T = 50
+Percorrendo duas vezes:	 12.717687	 23.273484 	 152 	 462 	 155.346000
+Percorrendo uma vez   :	 9.647024	 23.273484 	 152 	 462 	 155.346000
+Imagens Integrais:    :	 0.022664	 23.273484 	 152 	 462 	 155.346000
+T = 75
+Percorrendo duas vezes:	 25.588872	 50.694893 	 0 	 121 	 128.137422
+Percorrendo uma vez   :	 19.434065	 50.694893 	 0 	 121 	 128.137422
+Imagens Integrais:    :	 0.021395	 50.694893 	 0 	 121 	 128.137422
+T = 100
+Percorrendo duas vezes:	 40.434558	 82.152379 	 0 	 110 	 126.400900
+Percorrendo uma vez   :	 30.713724	 82.152379 	 0 	 110 	 126.400900
+Imagens Integrais:    :	 0.020205	 82.152379 	 0 	 110 	 126.400900
+T = 125
+Percorrendo duas vezes:	 55.707218	 181.728761 	 0 	 84 	 121.446720
+Percorrendo uma vez   :	 42.374629	 181.728761 	 0 	 84 	 121.446720
+Imagens Integrais:    :	 0.019114	 181.728761 	 0 	 84 	 121.446720
+T = 150
+Percorrendo duas vezes:	 70.188254	 319.870984 	 0 	 57 	 117.713111
+Percorrendo uma vez   :	 53.394320	 319.870984 	 0 	 57 	 117.713111
+Imagens Integrais:    :	 0.018020	 319.870984 	 0 	 57 	 117.713111
+T = 175
+Percorrendo duas vezes:	 82.786661	 487.813990 	 0 	 52 	 122.683820
+Percorrendo uma vez   :	 63.042445	 487.813990 	 0 	 52 	 122.683820
+Imagens Integrais:    :	 0.017129	 487.813990 	 0 	 52 	 122.683820
+T = 200
+Percorrendo duas vezes:	 92.722353	 630.578782 	 0 	 20 	 125.988025
+Percorrendo uma vez   :	 70.565034	 630.578782 	 0 	 20 	 125.988025
+Imagens Integrais:    :	 0.016180	 630.578782 	 0 	 20 	 125.988025
+
+------------------------------------------
+Finished program. Pending pointers: 0 
+------------------------------------------
