@@ -9,7 +9,11 @@
 bool debugVerbose = false;
 bool debugSimple = false;
 
-// ------------------------------------------ UTILS MALLOC / FREE -- ----
+/* ------------------------------------------ UTILS MALLOC / FREE -----------------------------------
+ * Funções auxiliares para malloc e free. Elas servem para um ter um controle a mais 
+ * das funções com gerenciamento de memória para garantir que não existem ponteiros 
+ * pendentes
+ */
 int pendingAdressesCount = 0;
 void* mallocLogging(size_t size){
     void* mallocResult = malloc(size);
@@ -24,7 +28,7 @@ void freeLogging(void* var){
     pendingAdressesCount--;
 }
 
-// ------------------------------------------ MATRIX UTILS ------------------------------------------
+// ------------------------------------------ MATRIX/ARRAY UTILS ------------------------------------------
 typedef struct {
     long long  *array;
     long long **matrix;
@@ -68,7 +72,9 @@ void freeImage(Image* image){
     freeLogging(image);
 }
 
-// ------------------------------------------ IMAGE UTILS ------------------------------------------
+/* ------------------------------------------ IMAGE UTILS ------------------------------------------
+ * Funções auxiliares para leitura da imagem
+ */
 Image* readImage(char* filename){
     if(debugVerbose) printf("Reading %s\n", filename);
 
@@ -103,6 +109,10 @@ Image* readImage(char* filename){
     return image;
 }
 
+/* 
+ * Função muito simples para checagem da maioria dos overflows 
+ * para exibir uma mensagem mais amigável. 
+ */
 void checkOverflow(long long greater, long long lower){
     if (lower > greater){
         printf("Error: Overflow has happened during process\n");
@@ -119,12 +129,16 @@ double pow(double base, int exponent){
     return result;
 }
 
+/*
+ * Função para geração de imagem integral genérica para qualquer expoente
+ */
 Image* generateIntegralImage(Image* source, int powExponent){
     Image* integralImage = allocateImage(source->iMax, source->jMax);
 
     for(int i = 0; i < source->iMax;i++){
         for(int j = 0; j < source->jMax;j++){
             long long original = pow(source->matrix[i][j], powExponent);
+            // Validação de i e j para quando está nas bordas superiores e esquerda
             long long upper = j==0 ? 0 : integralImage->matrix[i][j-1];
             long long left = i==0 ? 0 : integralImage->matrix[i-1][j];
             long long intersected = i==0 || j==0 ? 0 : integralImage->matrix[i-1][j-1];
@@ -139,7 +153,7 @@ Image* generateIntegralImage(Image* source, int powExponent){
 }
 
 
-// ------------------------------------------ STATISTIC UTILS ------------------------------------------
+// ------------------------------------------ VARIANCE UTILS ------------------------------------------
 typedef struct {
     int iLowestVar;
     int jLowestVar;
@@ -148,8 +162,16 @@ typedef struct {
     double windowAverage;
 }VarianceResult;
 
+/*
+ * Como primeira abordagem, utilizou-se a fórmula (2) da variância no enunciado, 
+ * implementado pela função a seguir deste programa. Isto pois, segundo
+ * a fórmula, precisamos primeiro calcular a média da janela para finalmente calcularmos a
+ * variância, necessitando percorrer duas vezes o mesmo conjunto de elementos dentro da 
+ * janela.
+ */
+
 VarianceResult* getVarianceAccessingTwice(Image *source, long tSize){
-    double lowestVariance = 9999999999999; //long long highest value
+    double lowestVariance = 9999999999999; // um valor bem grande
     int iLowestVariance, jLowestVariance = -1;
     double windowSize = tSize*tSize;
     double windowSum, windowAvg, sumToVar, variance, windowAverage;
@@ -196,6 +218,10 @@ VarianceResult* getVarianceAccessingTwice(Image *source, long tSize){
     return varianceResult;
 }
 
+/* 
+ * Já na segunda abordagem, utilizando a fórmula (4) do enunciado, conseguimos em uma única 
+ * visita à todos os itens da janela calcular a variância.
+ */
 VarianceResult* getVarianceAccessingOnce(Image *source, long tSize){
     double lowestVariance = 9999999999999; //long long highest value
     int iLowestVariance, jLowestVariance = -1;
@@ -238,6 +264,14 @@ VarianceResult* getVarianceAccessingOnce(Image *source, long tSize){
     return varianceResult;
 }
 
+/* 
+ * E finalmente, como terceira abordagem utilizamos Imagens Integrais. Note que para que
+ * o cálculo da variância ser possível foi necessário gerar duas imagens integrais: 
+ * (1) sumIntegralImage que dado um ponto, continha a soma de todos os pixels à esquerda 
+ * e acima dele e (2) pow2IntegralImage que contém lógica similar, porém calculando o 
+ * valor da imagem original ao quadrado. Assim, foi possível com somente 8 acessos (4 em 
+ * cada imagem integral) calcular a variância da janela na imagem original.
+ */
 VarianceResult* getVarianceUsingIntegralImage(Image *source, long tSize){
     Image* sumIntegralImage = generateIntegralImage(source, 1);
     if(debugVerbose) printImage(sumIntegralImage);
@@ -330,6 +364,10 @@ void freeClockedVarianceResult(ClockedVarianceResult* result){
     freeLogging(result);
 }
 
+/* 
+ * Função que gera o resultado em tempo de CPU encapsulando o resultado 
+ * da variância original
+ */
 ClockedVarianceResult* runCalculatingTime(VarianceResult* (*f)(Image*, long), Image* source, long tSize ){
     clock_t start, end;
     double cpuTimeUsed;
@@ -389,13 +427,19 @@ int runAll(Image* source, long tSize){
     freeClockedVarianceResult(result);
 }
 
-/* *********************************************************
- *  Main with parameters
- * =========================================================
+/* *****************************************************************
+ *  É possível executar o programa usando a seguinte configuração
+ * No primeiro, como foi pedido no enunciado do EP
+ * -----------------------------------------------------------------
  * ./a.out images/desired.pgm 9
- * *********************************************************
+ * -----------------------------------------------------------------
+ * 
+ * Neste segundo, podemos executar para geração das estatísticas
+ * discutidas abaixo
+ * -----------------------------------------------------------------
  * ./a.out images/desired.pgm -1
- * *********************************************************/
+ * -----------------------------------------------------------------
+ * *****************************************************************/
 int main(int argc, char * argv[]){
     if( argc != 3 ) {
         printf("Call this program using 2 arguments. Filename and T-Size. Ex: './program filename.pgm 50.\n");
@@ -449,40 +493,20 @@ int main(int argc, char * argv[]){
  * Relatório de Resultados
  * ===================================================================================
 
-1. Introdução
+1. Resultados
 
 Com o objetivo de estimar o nível de ruído em uma imagem, a proposta do trabalho foi 
 avaliar diferentes implementações e técnicas de processamento de imagens utilizando 
 como base a variância dada uma região quadrada de largura t, a qual chamaremos de janela.
 
-Como primeira abordagem, utilizou-se a fórmula (2) da variância no enunciado, 
-implementado pela função "getVarianceAccessingTwice" deste programa. Isto pois, segundo
-a fórmula, precisamos primeiro calcular a média da janela para finalmente calcularmos a
-variância, necessitando percorrer duas vezes o mesmo conjunto de elementos dentro da 
-janela.
-
-Já na segunda abordagem, utilizando a fórmula (4) do enunciado, conseguimos em uma única 
-visita à todos os itens da janela calcular a variância, implementado pela função
-"getVarianceAccessingOnce" deste programa.
-
-E finalmente, como terceira abordagem utilizamos Imagens Integrais, definida na função
-"getVarianceUsingIntegralImage". Note que para que o cálculo da variância ser possível
-foi necessário gerar duas imagens integrais: (1) sumIntegralImage que dado um ponto, 
-continha a soma de todos os pixels à esquerda e acima dele e (2) pow2IntegralImage que 
-contém lógica similar, porém calculando o valor da imagem original ao quadrado. Assim,
-foi possível com somente 8 acessos (4 em cada imagem integral) calcular a variância 
-da janela na imagem original.
-
-2. Resultados e avaliação
-
 Para avaliar o resultado, cada um dos algoritmos foi executado para janelas de largura
 de 25 em 25 iniciando com t=25 até t=200 cinco vezes (Para reproduzir este comportamento 
-basta chamar o programa passando t = -1). Os resultados de performance abaixo contém a 
-média de tempo gasto em segundos das 5 execuções.
+basta chamar o programa passando t = -1, conforme explicado no main). Os resultados de 
+performance abaixo contém a média de tempo gasto em segundos das 5 execuções.
 
 Vamos inicialmente analisar as imagens disponibilizadas: fig01.pgm, fig02.pgm, fig03.pgm, 
-fig04.pgm e fig05.pgm, imagens 512x512 da famosa "Lena Soderberg", sendo que para cada 
-imagem, foi inserido um ruído a mais. 
+fig04.pgm e fig05.pgm, imagens 512x512 da famosa "Lena", sendo que para cada imagem, foi 
+inserido um ruído a mais. 
  
 O resultado da menor variância independe de algoritmo e pode ser observados entre janelas na 
 tabela a seguir:
@@ -549,7 +573,7 @@ Veja que o tempo de execução se apresenta maior na imagem em qualquer um dos a
 Interessante de se observar de que apesar do aumento, quando utilizamos imagens 
 integrais, a execução ainda é bem rápida, cerca de 3 a 4 milissegundos.
 
-3. Conclusão
+2. Discussão e conclusões
 
 Com a análise da variância foi possível perceber que ela pode ser utilizada como um 
 critério de medição ruído para imagens de mesma natureza. No entanto, como pudemos 
@@ -571,13 +595,12 @@ na execução da medição de ruído através da mínima variância da imagem or
 superioridade em tempos de execução consegue processar até imagens grandes com boa 
 velocidade de processamento.
 
-4. Considerações adicionais
+3. Informações técnicas 
 
 Todos os testes foram rodados utilizando a seguinte configuração de máquina:
 Processador Intel i5-7300HQ CPU 2.5GHz x 4
 12Gib de memória com 64-bits
 Placa gráfica Intel® Kabylake GT2 
-
 
  * ===================================================================================
  */
