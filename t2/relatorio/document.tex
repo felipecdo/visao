@@ -69,7 +69,7 @@
 		\caption{Imagem com Ruído periódico} 
 	\end{figure}
 
-	Para isso, vamos analisar o espectro em Fourier. Nota-se pequenos pontos (alguns circulados em vermelho para facilitar a observação) que parecem estar afetando a qualidade da imagem. Podemos também aplicar uma limiarização para facilitar a visualização conforme imagem abaixo:
+	Para isso, vamos analisar o espectro em Fourier. Nota-se pequenos pontos (alguns circulados em vermelho para facilitar a observação) que parecem estar afetando a qualidade da imagem. Podemos também aplicar uma limiarização para facilitar a visualização conforme imagens abaixo:
 		
 	\begin{figure}[H]
 		\centering
@@ -89,9 +89,9 @@
 		\caption{(a) Spectrum com threshold da parte real e (b) Spectrum com threshold da parte imaginária} 
 	\end{figure}
 	
-	Como somente a parte real possui estes valores acima do comum (que são os que geram os ruídos periódicos) podemos trabalhar somente em remover tal ruído periódico somente na parte real do espectro.
+	Como visto em aula e atividades do curso, pontos com valores acima do comum longe do centro podem ser ruído no domínio da imagem. Porém, como demonstrado acima e explorado com diversos thresholds, somente é possível observar tais pontos na parte real do espectro de Fourier e portanto, nos concentraremos em remover tais pontos nesta parte.
 	
-	Para remover os pontos que geram o ruído periódico, o algoritmo precisa de 3 parâmetros: (1) o espectro, (2) Um valor $s$ para o tamanho de um lado ímpar de um kernel quadrado ($k = s\times s$) e (3) um valor $t$ que é um limiar de aceitação, onde $t > 1$. Este limiar é necessário para não obter pixels  
+	Para remover os pontos que geram o ruído periódico, o algoritmo precisa de 3 parâmetros: (1) o espectro, (2) Um valor $s$ para o tamanho de um lado ímpar de um kernel quadrado ($k = s\times s$) e (3) um valor $t$ (chamado de código como $multiply\_factor$) que é um limiar de aceitação, onde $t > 1$.
 	
 	O algoritmo compara o valor absoluto do centro do kernel com os valores absolutos de seus vizinhos dado o kernel $k$. Se o pixel no centro do kernel é maior que todos os seus vizinhos vezes o limiar $t$, o novo valor do centro é a média entre os vizinhos.
 	
@@ -109,11 +109,11 @@
 	
 	\section{Problema 2}
 	
-	O problema número 2 também tinha como objetivo restaurar uma imagem corrompida, só que desta vez com um ruído impulsivo com diversas regiões pretas. 
+	O problema número 2 também tinha como objetivo restaurar uma imagem corrompida, só que desta vez com um ruído impulsivo, resultando em diversas regiões pretas na imagem. 
 	
 	Para restaurar, foi pedido que se utilizasse o atributo área das bacias da Max-tree, no entanto como os ruídos a serem removidos são pretos, é necessário utilizar a Min-tree (dual da Max-tree) ou pode-se complementar a imagem e utilizar a Max-tree. Como estamos utilizando na matéria o \textit{siamxt Toolbox}, que só trabalha com Max-tree a segunda opção parece mais adequada.
 	
-	Como os ruídos são bem pequenos, ou seja, possuem poucos pixels conexos, um atributo de área pequeno já é o suficiente. Isso pode ser demonstrado inclusive na imagem abaixo:
+	A figura 5 explora os resultados variando os valores do atributo de área. Como os ruídos são bem pequenos, ou seja, possuem poucos pixels conexos, um atributo de área pequeno já é o suficiente. 
 	
 	\begin{figure}[H]
 		\centering
@@ -121,6 +121,7 @@
 		\caption{Detalhes da maçã após diversas podas com valores diferentes do atributo área}
 	\end{figure}
 
+	
 	Podemos ver que com o atributo área = 10, temos uma boa quantidade de ruído eliminado. Porém ainda sobraram alguns grandes. Quando utilizamos uma pode com valor do atributo área muito grande como 1000 já acabamos afetando a imagem. Veja que o talo da maçã começou a perder o verdadeiro contraste. Além disso, se exageramos, como no exemplo utilizando 10000, além do talo, outros componentes da maçã acabam sendo prejudicados.
 	
 	Como o valor 100 pareceu adequado durante os testes, a imagem resultante após a aplicação da poda por área = 100 é a seguinte:
@@ -143,7 +144,8 @@
 	
 	Em morfologia matemática, Seja uma imagem em escala de cinza $I$ e um kernel $k$, Gradiente Morfológico é a diferença entre a dilatação e a erosão desta imagem, ou seja, $G(I) = (I \oplus k) - (I \ominus k)$.
 	
-	Conforme pedido pelo exercício, utilizaremos um disco de raio unitário como kernel, ou seja, 
+	Conforme pedido pelo exercício, utilizaremos um disco de raio unitário como kernel, conforme demonstrado na Figura 7. 
+	A aplicação do gradiente morfológico resulta na Figura 8.
 	
 	\begin{figure}[H]
 		\centering
@@ -152,7 +154,6 @@
 		
 	\end{figure}
 	
-	Gerando a seguinte imagem:
 	
 	\begin{figure}[H]
 		\centering
@@ -166,8 +167,8 @@
 	\subsection{Filtro das 8 bacias e Marcadores}	
 		
 	Agora precisamos aplicar um filtro em cima do resultado do gradiente morfológico. Similarmente ao problema 2, foi necessário complementar a imagem e utilizar a Max-tree, conservando as 8 folhas da Max-tree com a imagem complementada de acordo com o atributo calculado \textit{volume}. 
-		
-	Como resultado, tivemos outra outra imagem muito parecida com a do gradiente só que filtrada. Após isso, novamente calculamos a Max-tree da imagem resultante do passo anterior e dessa vez selecionamos somente as folhas. Como resultado, temos as 8 menores bacias da imagem.
+	
+	Como resultado, tivemos outra imagem muito parecida com a do gradiente só que filtrada. Após isso, novamente calculamos a Max-tree da imagem resultante do passo anterior e dessa vez selecionamos somente as folhas. Como resultado, temos as 8 menores bacias da imagem.
 	
 	Estas bacias serão utilizadas como marcadores para o watershed. Para isso, foi necessário rotular cada um dos componentes conexos resultantes com uma cor, conforme imagem (a) abaixo. Após isso, rodamos o algoritmo de watershed, resultando na imagem (b) abaixo
 	
@@ -184,7 +185,8 @@
 	\section{Problema 4}
 	
 	O problema 4 é um desafio de conseguir selecionar os caracteres alfanuméricos da melhor forma possível.
-	Como primeiro passo, foi necessário utilizar filtros morfológicos para remover os fios de cabelo. O filtro com melhor resultado foi um fechamento de um elemento estruturante $5 \times 5$ circular, conforme ilustração abaixo
+	
+	Como primeiro passo, foi necessário utilizar filtros morfológicos para remover os fios de cabelo. O filtro com melhor resultado foi um fechamento de um elemento estruturante $5 \times 5$ circular, conforme ilustração abaixo:
 	
 	\begin{figure}[H]
 		\centering

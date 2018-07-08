@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.3.4)  19 JUN 2018 23:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.3.4)  1 JUL 2018 20:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1123,9 +1123,9 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language append on input line 91.
  [2 <./images/1_spectrum.png> <./images/1_spectrum_threshold.png>]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 99.
+(babel)             in language append on input line 98.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 99.
+(babel)             in language append on input line 98.
  [3 <./images/1_spectrum_real.png> <./images/1_spectrum_imag.png>]
 File: images/1_original.png Graphic file (type png)
  <use images/1_original.png>
@@ -1156,131 +1156,131 @@ Package babel Info: Redefining portuges shorthand "|
 File: images/2_maca_original.png Graphic file (type png)
 
 <use images/2_maca_original.png>
-Package pdftex.def Info: images/2_maca_original.png used on input line 130.
+Package pdftex.def Info: images/2_maca_original.png used on input line 131.
 (pdftex.def)             Requested size: 180.19376pt x 180.19376pt.
 
 <images/2_maca_recuperada.png, id=81, 819.06pt x 817.0525pt>
 File: images/2_maca_recuperada.png Graphic file (type png)
 
 <use images/2_maca_recuperada.png>
-Package pdftex.def Info: images/2_maca_recuperada.png used on input line 132.
+Package pdftex.def Info: images/2_maca_recuperada.png used on input line 133.
 (pdftex.def)             Requested size: 180.19376pt x 179.7521pt.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 136.
+(babel)             in language append on input line 137.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 136.
+(babel)             in language append on input line 137.
  [5 <./images/2_maca_1.png>]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 138.
+(babel)             in language append on input line 139.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 142.
+(babel)             in language append on input line 143.
 
 <images/3_disco.png, id=87, 183.68625pt x 133.49875pt>
 File: images/3_disco.png Graphic file (type png)
 
 <use images/3_disco.png>
-Package pdftex.def Info: images/3_disco.png used on input line 150.
+Package pdftex.def Info: images/3_disco.png used on input line 152.
 (pdftex.def)             Requested size: 73.47318pt x 53.39854pt.
 
 <images/3_original.png, id=88, 725.71124pt x 819.06pt>
 File: images/3_original.png Graphic file (type png)
 
 <use images/3_original.png>
-Package pdftex.def Info: images/3_original.png used on input line 159.
+Package pdftex.def Info: images/3_original.png used on input line 160.
 (pdftex.def)             Requested size: 181.42737pt x 204.7645pt.
 
 <images/3_gradiente.png, id=89, 726.715pt x 820.06375pt>
 File: images/3_gradiente.png Graphic file (type png)
 
 <use images/3_gradiente.png>
-Package pdftex.def Info: images/3_gradiente.png used on input line 161.
+Package pdftex.def Info: images/3_gradiente.png used on input line 162.
 (pdftex.def)             Requested size: 181.6783pt x 205.01543pt.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 165.
+(babel)             in language append on input line 166.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 165.
+(babel)             in language append on input line 166.
  [6 <./images/2_maca_original.png> <./images/2_maca_recuperada.png> <./images/3
 _disco.png>]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 166.
+(babel)             in language append on input line 167.
 
 <images/3_pontos.png, id=99, 725.71124pt x 822.07124pt>
 File: images/3_pontos.png Graphic file (type png)
 
 <use images/3_pontos.png>
-Package pdftex.def Info: images/3_pontos.png used on input line 176.
+Package pdftex.def Info: images/3_pontos.png used on input line 177.
 (pdftex.def)             Requested size: 181.42737pt x 205.5173pt.
 
 <images/3_resultado.png, id=100, 726.715pt x 819.06pt>
 File: images/3_resultado.png Graphic file (type png)
 
 <use images/3_resultado.png>
-Package pdftex.def Info: images/3_resultado.png used on input line 178.
+Package pdftex.def Info: images/3_resultado.png used on input line 179.
 (pdftex.def)             Requested size: 181.6783pt x 204.7645pt.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 182.
+(babel)             in language append on input line 183.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 182.
+(babel)             in language append on input line 183.
  [7 <./images/3_original.png> <./images/3_gradiente.png>]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 184.
+(babel)             in language append on input line 185.
  <images/4_struct.png, id=109, 127.47626pt x 89.33376pt>
 File: images/4_struct.png Graphic file (type png)
 
 <use images/4_struct.png>
-Package pdftex.def Info: images/4_struct.png used on input line 191.
+Package pdftex.def Info: images/4_struct.png used on input line 193.
 (pdftex.def)             Requested size: 89.23276pt x 62.53319pt.
 
 <images/4_original.png, id=110, 841.1425pt x 754.82pt>
 File: images/4_original.png Graphic file (type png)
 
 <use images/4_original.png>
-Package pdftex.def Info: images/4_original.png used on input line 199.
+Package pdftex.def Info: images/4_original.png used on input line 201.
 (pdftex.def)             Requested size: 176.64514pt x 158.51688pt.
 
 <images/4_removendo_cabelo.png, id=111, 838.13126pt x 754.82pt>
 File: images/4_removendo_cabelo.png Graphic file (type png)
 
 <use images/4_removendo_cabelo.png>
-Package pdftex.def Info: images/4_removendo_cabelo.png used on input line 201.
+Package pdftex.def Info: images/4_removendo_cabelo.png used on input line 203.
 (pdftex.def)             Requested size: 176.01276pt x 158.51688pt.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 204.
+(babel)             in language append on input line 206.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 204.
+(babel)             in language append on input line 206.
  [8 <./images/3_pontos.png> <./images/3_resultado.png> <./images/4_struct.png>]
 
 <images/4_resultado.png, id=120, 836.12375pt x 543.02875pt>
 File: images/4_resultado.png Graphic file (type png)
 
 <use images/4_resultado.png>
-Package pdftex.def Info: images/4_resultado.png used on input line 217.
+Package pdftex.def Info: images/4_resultado.png used on input line 219.
 (pdftex.def)             Requested size: 418.06085pt x 271.5137pt.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 220.
+(babel)             in language append on input line 222.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 220.
+(babel)             in language append on input line 222.
  [9 <./images/4_original.png> <./images/4_removendo_cabelo.png>]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 221.
+(babel)             in language append on input line 223.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language append on input line 221.
+(babel)             in language append on input line 223.
  [10 <./images/4_resultado.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 221.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 221.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 223.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 223.
  (./document.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 221.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 221.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 223.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 223.
 Package rerunfilecheck Info: File `document.out' has not changed.
 (rerunfilecheck)             Checksum: 85202363493964FD0C4273930E8E4AFA;399.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 221.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 223.
  ) 
 Here is how much of TeX's memory you used:
- 18729 strings out of 493029
- 340117 string characters out of 6136235
+ 18733 strings out of 493029
+ 340157 string characters out of 6136235
  414549 words of memory out of 5000000
- 21866 multiletter control sequences out of 15000+600000
- 11403 words of font info for 30 fonts, out of 8000000 for 9000
+ 21868 multiletter control sequences out of 15000+600000
+ 12937 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,54p,468b,401s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
@@ -1292,7 +1292,7 @@ b></usr/share/texmf/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf/
 fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/public/c
 m-super/sfrm1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1728.pfb
 ></usr/share/texmf/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on document.pdf (10 pages, 2760709 bytes).
+Output written on document.pdf (10 pages, 2762655 bytes).
 PDF statistics:
  181 PDF objects out of 1000 (max. 8388607)
  138 compressed objects within 2 object streams

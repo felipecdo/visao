@@ -496,13 +496,14 @@ int main(int argc, char * argv[]){
 1. Resultados
 
 Com o objetivo de estimar o nível de ruído em uma imagem, a proposta do trabalho foi 
-avaliar diferentes implementações e técnicas de processamento de imagens utilizando 
+avaliar algumas implementações e técnicas de processamento de imagens utilizando 
 como base a variância dada uma região quadrada de largura t, a qual chamaremos de janela.
 
-Para avaliar o resultado, cada um dos algoritmos foi executado para janelas de largura
-de 25 em 25 iniciando com t=25 até t=200 cinco vezes (Para reproduzir este comportamento 
-basta chamar o programa passando t = -1, conforme explicado no main). Os resultados de 
-performance abaixo contém a média de tempo gasto em segundos das 5 execuções.
+Para avaliar e comparar os resultados, cada algoritmo foi executado variando t de 25 a 200
+com o passo de 25. Além disso, foi repetido o processo cinco vezes para evitar picos de 
+sistema (Para reproduzir este comportamento basta chamar o programa passando t = -1, 
+conforme explicado no main). Os resultados de performance abaixo contém a média de tempo 
+gasto em segundos das 5 execuções.
 
 Vamos inicialmente analisar as imagens disponibilizadas: fig01.pgm, fig02.pgm, fig03.pgm, 
 fig04.pgm e fig05.pgm, imagens 512x512 da famosa "Lena", sendo que para cada imagem, foi 
@@ -543,11 +544,11 @@ Agora em termos de performance, vamos analisar fig01.pgm, a imagem com muito pou
 
 A tabela acima evidencia que até existe um ganho de performance de acessar somente uma vez
 os itens do array ao invés de acessar duas vezes. Mas conforme aumentamos o tamanho da 
-janela, muito mais tempo é utilizado para conseguir encontrar a menor variância. Já quando
+janela, mais tempo de máquina é gasto para conseguir encontrar a menor variância. Já quando
 utilizamos imagens integrais, independente do tamanho da janela e ela consegue encontrar
 a menor variância da imagem muito mais rápido.
 
-Vamos observar agora a fig05.pgm, figura com mais ruído
+Vamos observar agora a fig05.pgm, figura com mais ruído.
 
 -----------------------------------------------------------------------------------------
 | Algoritmo             t=25    t=50    t=75    t=100   t=125   t=150   t=175   t=200
@@ -571,7 +572,7 @@ diferente: mountain.ascii.pgm (incluída no pacote de entrega na pasta images/) 
 
 Veja que o tempo de execução se apresenta maior na imagem em qualquer um dos algoritmos.
 Interessante de se observar de que apesar do aumento, quando utilizamos imagens 
-integrais, a execução ainda é bem rápida, cerca de 3 a 4 milissegundos.
+integrais, a execução ainda é bem rápida, cerca de 30 a 40 milissegundos.
 
 2. Discussão e conclusões
 
@@ -582,9 +583,8 @@ com naturezas muito diferentes devido o valor variar bastante de uma janela para
 
 Já sobre o tempo de execução, notamos que apesar do relativo ganho em percorrer a janela
 somente uma vez ao invés de duas, a velocidade de execução quando utilizamos Imagens 
-Integrais é muito superior, mesmo com um elevado custo de memória, pois temos que 
-gerar 2 imagens extras com cada um dos itens maior do que os originais (utilizando long 
-long na implementação corrente). 
+Integrais é muito superior. Apesar de construirmos duas imagens extras em memória com
+valores maiores (long long), o resultado é extremamente rápido para o cálculo da variância.
 
 Com o último experimento foi possível perceber também que o tamanho da imagem é um 
 fator importante para qualquer um dos algoritmos apresentados vide que quando aumentamos
@@ -593,7 +593,7 @@ o número de pixels da imagem, qualquer um dos algoritmos demorou mais.
 Portanto, pelos resultados apresentados fica clara a contribuição das imagens integrais 
 na execução da medição de ruído através da mínima variância da imagem original. Sua 
 superioridade em tempos de execução consegue processar até imagens grandes com boa 
-velocidade de processamento.
+velocidade de processamento e muito melhor do que quando percorremos os valores da janela.
 
 3. Informações técnicas 
 
